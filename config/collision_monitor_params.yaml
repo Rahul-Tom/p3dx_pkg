@@ -9,12 +9,7 @@ collision_monitor:
     source_timeout: 5.0
     base_shift_correction: True
     stop_pub_timeout: 2.0
-    # Polygons represent zone around the robot for "stop" and "slowdown" action types,
-    # and robot footprint for "approach" action type.
-    # Footprint could be "polygon" type with dynamically set footprint from footprint_topic
-    # or "circle" type with static footprint set by radius. "footprint_topic" parameter
-    # to be ignored in circular case.
-    polygons: ["PolygonStop"]
+    polygons: ["PolygonStop", "PolygonSlow", "FootprintApproach"]
     PolygonStop:
       type: "polygon"
       points: [0.3, 0.3, 0.3, -0.3, 0.0, -0.3, 0.0, 0.3]

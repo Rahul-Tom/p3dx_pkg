@@ -185,7 +185,7 @@ def generate_launch_description():
                 remappings=remappings +
                         # [('cmd_vel', 'cmd_vel_nav'), ('cmd_vel_smoothed', 'cmd_vel')]),
                         #[('cmd_vel', 'cmd_vel_raw'), ('cmd_vel_smoothed', 'cmd_vel')]),
-                        [('cmd_vel', 'cmd_vel_raw'),
+                        [('cmd_vel', 'cmd_vel_raw')]),
             Node(
                 package='nav2_lifecycle_manager',
                 executable='lifecycle_manager',
@@ -247,7 +247,7 @@ def generate_launch_description():
                 remappings=remappings +
                         #    [('cmd_vel', 'cmd_vel_nav'), ('cmd_vel_smoothed', 'cmd_vel')]),
                         #    [('cmd_vel', 'cmd_vel_raw'), ('cmd_vel_smoothed', 'cmd_vel')]),
-                        [('cmd_vel', 'cmd_vel_raw'),
+                        [('cmd_vel', 'cmd_vel_raw')]),
             ComposableNode(
                 package='nav2_lifecycle_manager',
                 plugin='nav2_lifecycle_manager::LifecycleManager',

@@ -85,27 +85,19 @@ def generate_launch_description():
         executable='laser_scan_matcher',
         name='odom_laser_scan_match_pub',
     )
-    ##Joy Teleop
-    joy_node = Node(
-        package='teleop_twist_joy',
-        executable='teleop_node',
-        name='teleop_twist_joy_node',
-        remappings={('/RosAria/cmd_vel1', LaunchConfiguration('joy_vel'))},
-
-    )
-
+  
     return LaunchDescription([
         DeclareLaunchArgument(name='use_sim_time', default_value='True',
                                             description='Flag to enable use_sim_time'),
         DeclareLaunchArgument(name='rvizconfig', default_value=default_rviz_config_path,
                                             description='Absolute path to rviz config file'),
-        DeclareLaunchArgument('joy_vel', default_value='/RosAria/cmd_vel1'),                                                                        
-        arg_sim_time,
-        arg_tf_prefix,
-        get_prefix_fn,
-        state_publisher,
+                                                                                
+        # arg_sim_time,
+        # arg_tf_prefix,
+        # get_prefix_fn,
+        # state_publisher,
         robot_localization_node,
         odometry_node,
-        # rviz_node,
+        rviz_node,
         #joy_node
     ])

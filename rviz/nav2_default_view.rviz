@@ -85,6 +85,8 @@ Visualization Manager:
           Value: true
         laser:
           Value: true
+        map:
+          Value: true
         odom:
           Value: true
         p3dx_left_hubcap:
@@ -107,20 +109,27 @@ Visualization Manager:
       Show Axes: true
       Show Names: false
       Tree:
-        odom:
-          base_link:
-            base_footprint:
-              {}
-            laser:
-              {}
-            sonar:
-              {}
-            swivel:
-              center_wheel:
-                center_hubcap:
+        map:
+          odom:
+            base_link:
+              base_footprint:
+                {}
+              laser:
+                {}
+              p3dx_left_wheel:
+                p3dx_left_hubcap:
                   {}
-            top_plate:
-              {}
+              p3dx_right_wheel:
+                p3dx_right_hubcap:
+                  {}
+              sonar:
+                {}
+              swivel:
+                center_wheel:
+                  center_hubcap:
+                    {}
+              top_plate:
+                {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -528,7 +537,7 @@ Visualization Manager:
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: base_link
+    Fixed Frame: map
     Frame Rate: 30
   Name: root
   Tools:
