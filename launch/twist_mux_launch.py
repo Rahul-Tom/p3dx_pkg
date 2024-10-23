@@ -13,7 +13,7 @@ def generate_launch_description():
             executable='twist_mux',
             name = 'twist_mux_node',
             parameters=[twist_mux],
-            remappings=[('/cmd_vel_out', '/turtle1/cmd_vel')]
+            remappings=[('/cmd_vel', '/RosAria/cmd_vel')]
             )
 #...
 

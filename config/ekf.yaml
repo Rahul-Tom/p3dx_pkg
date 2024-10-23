@@ -38,14 +38,14 @@ ekf_filter_node:
                        false, false, false,
                        false, false, true,
                        false, false, false]               
-        odom0: RosAria/Pose
-        odom0_config: [true,  true,  false,
+        odom1: RosAria/Pose
+        odom1_config: [true,  true,  false,
                        false, false, false,
                        false, false, false,
                        false, false, false,
                        false, false, false]
-        odom0: laser_scan_matcher/odom
-        odom0_config: [true,  true,  true,
+        odom2: laser_scan_matcher/odom
+        odom2_config: [true,  true,  true,
                        false, false, false,
                        false, false, false,
                        false, false, true,

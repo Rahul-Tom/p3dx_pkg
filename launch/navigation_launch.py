@@ -46,7 +46,13 @@ def generate_launch_description():
                        'behavior_server',
                        'bt_navigator',
                        'waypoint_follower',
-                       'velocity_smoother']
+                       'velocity_smoother',
+                       'collision_monitor',
+                       'filter_mask_server', 
+                       'costmap_filter_info_server',
+                       'speed_filter_mask_server', 
+                       'speed_costmap_filter_info_server'
+                       ]
 
     # Map fully qualified names to relative ones so the node's namespace can be prepended.
     # In case of the transforms (tf), currently, there doesn't seem to be a better alternative
@@ -55,8 +61,8 @@ def generate_launch_description():
     # TODO(orduno) Substitute with `PushNodeRemapping`
     #              https://github.com/ros2/launch_ros/issues/56
     remappings = [('/tf', 'tf'),
-                  ('/tf_static', 'tf_static'),
-                  ('/cmd_vel', '/RosAria/cmd_vel')]
+                  ('/tf_static', 'tf_static')]
+                #   ('/cmd_vel', '/RosAria/cmd_vel')]
 
     # Create our own temporary YAML files that include substitutions
     param_substitutions = {
@@ -170,7 +176,7 @@ def generate_launch_description():
                 respawn_delay=2.0,
                 parameters=[configured_params],
                 arguments=['--ros-args', '--log-level', log_level],
-                remappings=remappings),
+                remappings=remappings),  
             Node(
                 package='nav2_velocity_smoother',
                 executable='velocity_smoother',
@@ -181,7 +187,46 @@ def generate_launch_description():
                 parameters=[configured_params],
                 arguments=['--ros-args', '--log-level', log_level],
                 remappings=remappings +
-                        [('cmd_vel', 'cmd_vel_nav'), ('cmd_vel_smoothed', 'cmd_vel')]),
+                        # [('cmd_vel', 'cmd_vel_nav'), ('cmd_vel_smoothed', 'cmd_vel')]),
+                        [('cmd_vel', 'cmd_vel_nav')]),
+            Node(
+                package='nav2_collision_monitor',
+                executable='collision_monitor',
+                output='screen',
+                emulate_tty=True,  # https://github.com/ros2/launch/issues/188
+                parameters=[configured_params]),   
+            Node(
+                package='nav2_map_server',
+                executable='map_server',
+                name='filter_mask_server',
+                namespace=namespace,
+                output='screen',
+                emulate_tty=True,  # https://github.com/ros2/launch/issues/188
+                parameters=[configured_params]),
+            Node(
+                package='nav2_map_server',
+                executable='costmap_filter_info_server',
+                name='costmap_filter_info_server',
+                namespace=namespace,
+                output='screen',
+                emulate_tty=True,  # https://github.com/ros2/launch/issues/188
+                parameters=[configured_params]),
+            Node(
+                package='nav2_map_server',
+                executable='map_server',
+                name='speed_filter_mask_server',
+                namespace=namespace,
+                output='screen',
+                emulate_tty=True,  # https://github.com/ros2/launch/issues/188
+                parameters=[configured_params]),
+            Node(
+                package='nav2_map_server',
+                executable='costmap_filter_info_server',
+                name='speed_costmap_filter_info_server',
+                namespace=namespace,
+                output='screen',
+                emulate_tty=True,  # https://github.com/ros2/launch/issues/188
+                parameters=[configured_params]),                 
             Node(
                 package='nav2_lifecycle_manager',
                 executable='lifecycle_manager',
@@ -240,7 +285,24 @@ def generate_launch_description():
                 name='velocity_smoother',
                 parameters=[configured_params],
                 remappings=remappings +
-                           [('cmd_vel', 'cmd_vel_nav'), ('cmd_vel_smoothed', 'cmd_vel')]),
+                        #    [('cmd_vel', 'cmd_vel_nav'), ('cmd_vel_smoothed', 'cmd_vel')]),
+                           [('cmd_vel', 'cmd_vel_nav')]),
+            ComposableNode(
+                package='nav2_collision_monitor',
+                plugin='nav2_collision_monitor::CollisionMonitor',
+                name='collision_monitor',
+                parameters=[configured_params],
+                remappings=remappings),               
+            ComposableNode(
+                package='nav2_map_server',
+                plugin='nav2_map_server::MapServer',
+                name='filter_mask_server',
+                parameters=[configured_params]),
+            ComposableNode(
+                package='nav2_map_server',
+                plugin='nav2_map_server::CostmapFilterInfoServer',
+                name='costmap_filter_info_server',
+                parameters=[configured_params]),                           
             ComposableNode(
                 package='nav2_lifecycle_manager',
                 plugin='nav2_lifecycle_manager::LifecycleManager',
